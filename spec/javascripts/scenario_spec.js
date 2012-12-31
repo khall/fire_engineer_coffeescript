@@ -11,10 +11,12 @@
         problems = scenario.toStr().split(',');
         answers = answer_str.split(',');
         num_right = 0;
-        for (num = _i = 0, _ref = answers.length; 0 <= _ref ? _i <= _ref : _i >= _ref; num = 0 <= _ref ? ++_i : --_i) {
-          if (answers[num] === problems[num]) {
-            num_right++;
+        for (num = _i = 0, _ref = answers.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; num = 0 <= _ref ? ++_i : --_i) {
+          if (!(answers[num] === problems[num])) {
+            continue;
           }
+          console.log(num + ' - does ' + answers[num] + ' == ' + problems[num] + '?');
+          num_right++;
         }
         expect(num_right + 3).toBeGreaterThan(answers.length);
         expect(num_right).not.toEqual(answers.length);

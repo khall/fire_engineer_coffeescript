@@ -9,7 +9,8 @@ describe 'Scenario', ->
       answers = answer_str.split(',')
 
       num_right = 0
-      num_right++ for num in [0..answers.length] when answers[num] == problems[num]
+      num_right++ for num in [0..answers.length - 1] when answers[num] == problems[num]
+
       expect(num_right + 3).toBeGreaterThan(answers.length)
       expect(num_right).not.toEqual(answers.length)
       expect(num_right).toBeLessThan(answers.length)
