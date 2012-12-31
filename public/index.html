@@ -1,0 +1,38 @@
+<html>
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="/javascripts/compiled/hose.js"></script>
+    <script src="/javascripts/compiled/pump.js"></script>
+    <script src="/javascripts/compiled/valve.js"></script>
+    <script type="text/javascript">
+        var pump = new App.Pump();
+        var valve = new App.Valve();
+        var hose = new App.Hose();
+        setInterval(function() {
+            $('#pressure').val(pump.pressure);
+            $('#release_valve').val(pump.release_valve);
+            $('#tank').val(pump.tank);
+            $('#open_percentage').val(valve.open_percentage);
+            $('#distance').val(hose.distance);
+            $('#diameter').val(hose.diameter);
+        }, 1000);
+    </script>
+</head>
+<body>
+    <p>
+        Pump
+        <input id="pressure"/>
+        <input id="release_valve"/>
+        <input id="tank"/>
+    </p>
+    <p>
+        Valve
+        <input id="open_percentage"/>
+    </p>
+    <p>
+        Hose
+        <input id="distance"/>
+        <input id="diameter"/>
+    </p>
+</body>
+</html>
