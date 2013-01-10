@@ -3,14 +3,23 @@
   window.App = {};
 
   App.Hose = (function() {
-    var appliance_friction_loss, friction_coefficients, smooth_bore_nozzle_gpm;
+    var appliance_friction_loss, desired_nozzle_pressure, fog_nozzle_gpm, friction_coefficients, smooth_bore_nozzle_gpm;
 
     friction_coefficients = {
       1: 150,
       1.5: 24,
       1.75: 15.5,
       2.5: 2,
-      3: 0.8
+      3: 0.8,
+      4: 0.2,
+      5: 0.08,
+      6: 0.05
+    };
+
+    desired_nozzle_pressure = {
+      'smooth bore': 50,
+      'master stream': 80,
+      'fog': 100
     };
 
     smooth_bore_nozzle_gpm = {
@@ -20,6 +29,12 @@
       '1': 209,
       '9/8': 265,
       '5/4': 326
+    };
+
+    fog_nozzle_gpm = {
+      '3/2': 100,
+      '5/2': 240,
+      'master': 750
     };
 
     appliance_friction_loss = {
@@ -87,6 +102,10 @@
       } else {
         return 0;
       }
+    };
+
+    Hose.prototype.pressure = function() {
+      return nozzle_pressure();
     };
 
     Hose.prototype.pressure_for_gpm = function(gpm) {

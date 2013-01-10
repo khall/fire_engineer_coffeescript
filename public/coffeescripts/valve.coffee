@@ -6,7 +6,7 @@ class App.Valve
     @pump = pump
 
   pressureOut: ->
-    po = (@open_percentage / 100.0) * @pump.pressure
+    po = (@open_percentage / 100.0) * @pump.pressure()
     parseFloat(po.toFixed(3))
 
   toStr: (with_pump = false) ->

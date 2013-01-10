@@ -22,7 +22,7 @@
 
     Valve.prototype.pressureOut = function() {
       var po;
-      po = (this.open_percentage / 100.0) * this.pump.pressure;
+      po = (this.open_percentage / 100.0) * this.pump.pressure();
       return parseFloat(po.toFixed(3));
     };
 

@@ -15,7 +15,7 @@ describe 'Valve: ', ->
     beforeEach ->
       pump = new App.Pump()
       v = new App.Valve(0, new App.Hose(), pump)
-      pump.pressure = 120
+      pump.idle_percentage = 40
 
     it 'should return 0 when the valve is closed', ->
       expect(v.pressureOut()).toEqual 0

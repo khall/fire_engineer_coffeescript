@@ -2,11 +2,8 @@ describe 'Scenario', ->
   describe 'Easy', ->
     it 'should come up with a easily solvable scenario', ->
       s = new App.Scenario
-      easy = s.easy()
-      scenario = easy[0]
-      answer_str = easy[1]
-      problems = scenario.toStr().split(',')
-      answers = answer_str.split(',')
+      problems = s.easy().toStr().split(',')
+      answers = s.answer_str.split(',')
 
       num_right = 0
       num_right++ for num in [0..answers.length - 1] when answers[num] == problems[num]
@@ -14,6 +11,16 @@ describe 'Scenario', ->
       expect(num_right + 3).toBeGreaterThan(answers.length)
       expect(num_right).not.toEqual(answers.length)
       expect(num_right).toBeLessThan(answers.length)
+      expect(s.changes_needed[0][0].indexOf('pump pressure') + s.changes_needed[1][0].indexOf('release valve')).toBeGreaterThan(-2)
+
+  describe 'morePressure', ->
+    it 'should create a scenario where more pressure is needed', ->
+      s = new App.Scenario
+      s.morePressureAllLines()
+      p = s.pump
+
+      # either the pump idle percentage needs to be increased or the hose valve needs to be opened more
+      expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan(p.discharge[0].hose.desired_nozzle_pressure())
 
   describe 'Rand', ->
     s = null

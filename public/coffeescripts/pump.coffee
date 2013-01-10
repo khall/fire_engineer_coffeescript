@@ -1,7 +1,7 @@
 class App.Pump
   # discharge and intake arrays should have valve objects
-  constructor: (pressure = 0, discharge = [], intake = [], tank = null, max_pressure = 300, release_valve = 160) ->
-    @pressure = pressure
+  constructor: (idle_percentage = 0, discharge = [], intake = [], tank = null, max_pressure = 300, release_valve = 160) ->
+    @idle_percentage = idle_percentage
     valve.pump = this for valve in discharge
     @discharge = discharge
     @intake = intake
@@ -9,8 +9,20 @@ class App.Pump
     @max_pressure = max_pressure
     @release_valve = release_valve
 
-  adjustPressure: (new_pressure) ->
-    @pressure = new_pressure
+  pressure: ->
+    (@idle_percentage / 100.0) * @max_pressure
+
+  setPressure: (desired_pressure) ->
+    @idle_percentage = @max_pressure / parseFloat(desired_pressure)
+
+#  adjustPressure: (new_pressure) ->
+#    @pressure = new_pressure
+
+  # TODO: ensure this summation idea is correct
+  totalIntakePressure: ->
+    pressure = 0
+    pressure += i.pressure for i in @intake
+    pressure
 
   toStr: ->
     discharge_str = ",discharge:["
@@ -21,6 +33,6 @@ class App.Pump
     intake_str += i.toStr() + "," for i in @intake
     intake_str.substr(0, intake_str - 1)
 
-    "pressure:" + @pressure + discharge_str + intake_str + "],tank:" + @tank + ",max_pressure:" + @max_pressure + ",release_valve:" + @release_valve
+    "pressure:" + @pressure() + discharge_str + intake_str + "],tank:" + @tank + ",max_pressure:" + @max_pressure + ",release_valve:" + @release_valve
 
   # TODO: drafting / suction

@@ -2,10 +2,10 @@
 
   App.Pump = (function() {
 
-    function Pump(pressure, discharge, intake, tank, max_pressure, release_valve) {
+    function Pump(idle_percentage, discharge, intake, tank, max_pressure, release_valve) {
       var valve, _i, _len;
-      if (pressure == null) {
-        pressure = 0;
+      if (idle_percentage == null) {
+        idle_percentage = 0;
       }
       if (discharge == null) {
         discharge = [];
@@ -22,7 +22,7 @@
       if (release_valve == null) {
         release_valve = 160;
       }
-      this.pressure = pressure;
+      this.idle_percentage = idle_percentage;
       for (_i = 0, _len = discharge.length; _i < _len; _i++) {
         valve = discharge[_i];
         valve.pump = this;
@@ -34,8 +34,23 @@
       this.release_valve = release_valve;
     }
 
-    Pump.prototype.adjustPressure = function(new_pressure) {
-      return this.pressure = new_pressure;
+    Pump.prototype.pressure = function() {
+      return (this.idle_percentage / 100.0) * this.max_pressure;
+    };
+
+    Pump.prototype.setPressure = function(desired_pressure) {
+      return this.idle_percentage = this.max_pressure / parseFloat(desired_pressure);
+    };
+
+    Pump.prototype.totalIntakePressure = function() {
+      var i, pressure, _i, _len, _ref;
+      pressure = 0;
+      _ref = this.intake;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        i = _ref[_i];
+        pressure += i.pressure;
+      }
+      return pressure;
     };
 
     Pump.prototype.toStr = function() {
@@ -54,7 +69,7 @@
         intake_str += i.toStr() + ",";
       }
       intake_str.substr(0, intake_str - 1);
-      return "pressure:" + this.pressure + discharge_str + intake_str + "],tank:" + this.tank + ",max_pressure:" + this.max_pressure + ",release_valve:" + this.release_valve;
+      return "pressure:" + this.pressure() + discharge_str + intake_str + "],tank:" + this.tank + ",max_pressure:" + this.max_pressure + ",release_valve:" + this.release_valve;
     };
 
     return Pump;

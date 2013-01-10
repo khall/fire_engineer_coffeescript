@@ -1,14 +1,21 @@
 window.App = {}
 
 class App.Hose
-  friction_coefficients = {1: 150, 1.5: 24, 1.75: 15.5, 2.5: 2, 3: 0.8}
+  friction_coefficients = {1: 150, 1.5: 24, 1.75: 15.5, 2.5: 2, 3: 0.8, 4: 0.2, 5: 0.08, 6: 0.05}
+
+  desired_nozzle_pressure = {'smooth bore': 50, 'master stream': 80, 'fog': 100}
 
   # at 50 psi nozzle pressure
   smooth_bore_nozzle_gpm = {'1/4': 13, '7/8': 159, '15/16': 184, '1': 209, '9/8': 265, '5/4': 326}
 
+  # http://books.google.com/books?id=tppLmQ6qUEEC&pg=PA67&lpg=PA67&dq=gpm+fog+nozzle+formula&source=bl&ots=7bZ_jaCPqF&sig=gZDzbR17ifV61qW69kAlIvqPQVI&hl=en&sa=X&ei=onXuULGOCouuigLq84CoBg&ved=0CEYQ6AEwAg#v=onepage&q=gpm%20fog%20nozzle%20formula&f=false
+  # master is rated at 500 - 1000, we'll just take the middle
+  fog_nozzle_gpm = {'3/2': 100, '5/2': 240, 'master': 750}
+
   # see http://fireengineeriq.com/Friction%20Loss.htm for more
   appliance_friction_loss = {'clappered siamese': 10, 'portable monitor': 25, 'standpipe': 25}
 
+  # TODO: add fog nozzle handling
   constructor: (distance = 100, diameter = 1.75, elevation = 0, max_pressure = 300, valve = null, nozzle = '15/16') ->
     @distance = distance
     @diameter = diameter
@@ -56,6 +63,9 @@ class App.Hose
 #    console.log("total loss: " + @total_pressure_loss())
     np = parseFloat((@valve.pressureOut() - @total_pressure_loss()).toFixed(3))
     if np > 0 then np else 0
+
+  pressure: ->
+    nozzle_pressure()
 
   pressure_for_gpm: (gpm) ->
     # gpm = 29.7 * Math.pow(@diameter, 2) * Math.sqrt(@pressure)

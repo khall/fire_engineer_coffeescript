@@ -19,7 +19,7 @@
       beforeEach(function() {
         pump = new App.Pump();
         v = new App.Valve(0, new App.Hose(), pump);
-        return pump.pressure = 120;
+        return pump.idle_percentage = 40;
       });
       it('should return 0 when the valve is closed', function() {
         return expect(v.pressureOut()).toEqual(0);

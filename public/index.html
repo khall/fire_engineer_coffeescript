@@ -2,37 +2,62 @@
 <head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="/javascripts/compiled/hose.js"></script>
+    <script src="/javascripts/compiled/hydrant.js"></script>
     <script src="/javascripts/compiled/pump.js"></script>
+    <script src="/javascripts/compiled/scenario.js"></script>
     <script src="/javascripts/compiled/valve.js"></script>
     <script type="text/javascript">
-        var pump = new App.Pump();
-        var valve = new App.Valve();
-        var hose = new App.Hose();
-        setInterval(function() {
-            $('#pressure').val(pump.pressure);
+        var scenario = new App.Scenario();
+        var pump = scenario.easy();
+        console.log(scenario.answer_str);
+        var interval = setInterval(function() {
+            newPump = new App.Pump($('#pressure').val(), pump.discharge, pump.intake, pump.tank, pump.max_pressure, $('#release_valve').val());
+            if (scenario.checkAnswer(newPump)) {
+                alert('correct!');
+                clearInterval(interval);
+                return;
+            }
+
+            $('#pressure').val(pump.pressure());
+            $('#intake_pressure').val(pump.intake);
             $('#release_valve').val(pump.release_valve);
             $('#tank').val(pump.tank);
-            $('#open_percentage').val(valve.open_percentage);
-            $('#distance').val(hose.distance);
-            $('#diameter').val(hose.diameter);
+            $('#open_percentage').val(pump.discharge[0].open_percentage);
+            $('#distance').val(pump.discharge[0].hose.distance);
+            $('#diameter').val(pump.discharge[0].hose.diameter);
         }, 1000);
     </script>
 </head>
 <body>
     <p>
-        Pump
-        <input id="pressure"/>
-        <input id="release_valve"/>
-        <input id="tank"/>
+        <h2>Pump</h2>
+        <p>
+            Idle Speed
+            <input id="pressure"/>
+            <input type="button" id="raise_idle" value="Raise"/>
+            <input type="button" id="lower_idle" value="Lower"/>
+        </p>
+        <p>
+            Intake Pressure
+            <input id="intake_pressure"/>
+        </p>
+        <p>
+            Release Valve
+            <input id="release_valve"/></p>
+        <p>Tank<input id="tank"/></p>
     </p>
     <p>
-        Valve
-        <input id="open_percentage"/>
+        <h2>Valve</h2>
+        <p>Open %<input id="open_percentage"/></p>
     </p>
     <p>
-        Hose
-        <input id="distance"/>
-        <input id="diameter"/>
+        <h2>Hose</h2>
+        <p>Length<input id="distance"/></p>
+        <p>Diameter<input id="diameter"/></p>
     </p>
+    <script type="text/javascript">
+        $('#raise_idle').bind('click', function(){ pump.idle_percentage += 10; });
+        $('#lower_idle').bind('click', function(){ pump.idle_percentage -= 10; });
+    </script>
 </body>
 </html>

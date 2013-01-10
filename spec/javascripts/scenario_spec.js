@@ -3,24 +3,29 @@
   describe('Scenario', function() {
     describe('Easy', function() {
       return it('should come up with a easily solvable scenario', function() {
-        var answer_str, answers, easy, num, num_right, problems, s, scenario, _i, _ref;
+        var answers, num, num_right, problems, s, _i, _ref;
         s = new App.Scenario;
-        easy = s.easy();
-        scenario = easy[0];
-        answer_str = easy[1];
-        problems = scenario.toStr().split(',');
-        answers = answer_str.split(',');
+        problems = s.easy().toStr().split(',');
+        answers = s.answer_str.split(',');
         num_right = 0;
         for (num = _i = 0, _ref = answers.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; num = 0 <= _ref ? ++_i : --_i) {
-          if (!(answers[num] === problems[num])) {
-            continue;
+          if (answers[num] === problems[num]) {
+            num_right++;
           }
-          console.log(num + ' - does ' + answers[num] + ' == ' + problems[num] + '?');
-          num_right++;
         }
         expect(num_right + 3).toBeGreaterThan(answers.length);
         expect(num_right).not.toEqual(answers.length);
-        return expect(num_right).toBeLessThan(answers.length);
+        expect(num_right).toBeLessThan(answers.length);
+        return expect(s.changes_needed[0][0].indexOf('pump pressure') + s.changes_needed[1][0].indexOf('release valve')).toBeGreaterThan(-2);
+      });
+    });
+    describe('morePressure', function() {
+      return it('should create a scenario where more pressure is needed', function() {
+        var p, s;
+        s = new App.Scenario;
+        s.morePressureAllLines();
+        p = s.pump;
+        return expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan(p.discharge[0].hose.desired_nozzle_pressure());
       });
     });
     return describe('Rand', function() {
