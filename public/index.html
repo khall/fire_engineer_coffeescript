@@ -10,26 +10,33 @@
         var scenario = new App.Scenario();
         var pump = scenario.easy();
         console.log(scenario.answer_str);
+        var matching_pumps = (pump == pump.discharge[0].pump);
+        console.log("pumps match? " + matching_pumps);
         var interval = setInterval(function() {
-            newPump = new App.Pump($('#pressure').val(), pump.discharge, pump.intake, pump.tank, pump.max_pressure, $('#relief_valve').val());
-            if (scenario.checkAnswer(newPump)) {
-                alert('correct!');
-                clearInterval(interval);
-                return;
-            }
+//            newPump = new App.Pump($('#pressure').val(), pump.discharge, pump.intake, pump.tank, pump.max_pressure, $('#relief_valve').val());
+//            if (scenario.checkAnswer(newPump)) {
+//                alert('correct!');
+//                clearInterval(interval);
+//                return;
+//            }
 
             $('#pressure').val(pump.pressure());
             $('#intake_pressure').val(pump.intake);
             $('#relief_valve').val(pump.relief_valve);
             $('#tank').val(pump.tank);
             $('#open_percentage').val(pump.discharge[0].open_percentage);
+            $('#valve_pressure_out').val(pump.discharge[0].pressureOut());
             $('#distance').val(pump.discharge[0].hose.distance);
             $('#diameter').val(pump.discharge[0].hose.diameter);
+            $('#elevation').val(pump.discharge[0].hose.elevation);
+            $('#total_pressure_loss').val(pump.discharge[0].hose.total_pressure_loss());
+            $('#gpm').val(pump.discharge[0].hose.gallons_per_minute());
+            $('#nozzle_pressure').val(pump.discharge[0].hose.nozzle_pressure());
         }, 1000);
 
         var tank_to_pump = function() {
-            var ttp = $('#tank_to_pump_indicator');
-            ttp.html(ttp.html() == 'Open' ? 'Closed' : 'Open');
+            var ttp = pump.tankToPump();
+            $('#tank_to_pump_indicator').html(ttp ? 'Open' : 'Closed');
         }
 
         var tank_fill = function() {
@@ -38,12 +45,13 @@
         }
 
         var drive_pump = function() {
-            var dp = $('#drive_pump_indicator');
-            dp.html(dp.html() == 'Pump' ? 'Drive' : 'Pump');
+            var dp = pump.driveToPump();
+            $('#drive_pump_indicator').html(dp ? 'Pump' : 'Drive');
         }
 
         var valve_adjust = function(input) {
             $('#open_percentage').val($(input).val());
+            pump.discharge[0].setOpenPercentage(parseInt($(input).val()));
         }
     </script>
 </head>
@@ -83,11 +91,16 @@
         <h2>Valve</h2>
         <input type="range" min="0" max="100" onchange="valve_adjust(this)"/>
         <p>Open %<input id="open_percentage"/></p>
+        <p>Pressure Out<input id="valve_pressure_out"/></p>
     </p>
     <p>
         <h2>Hose</h2>
         <p>Length<input id="distance"/></p>
         <p>Diameter<input id="diameter"/></p>
+        <p>Elevation<input id="elevation"/></p>
+        <p>Nozzle Pressure<input id="nozzle_pressure"/></p>
+        <p>GPM<input id="gpm"/></p>
+        <p>Total Pressure Loss<input id="total_pressure_loss"/></p>
     </p>
     <script type="text/javascript">
 //        $('#raise_idle').bind('click', function(){ pump.idle_percentage += 10; });

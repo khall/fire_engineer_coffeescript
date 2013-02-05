@@ -34,7 +34,25 @@
       this.relief_valve = relief_valve;
       this.tank_to_pump = false;
       this.tank_fill = false;
+      this.drive_to_pump = false;
+      this.flow_interval = null;
     }
+
+    Pump.prototype.driveToPump = function() {
+      this.drive_to_pump = !this.drive_to_pump;
+      if (this.tank_to_pump && this.drive_to_pump) {
+        this.processWaterLoss();
+      }
+      return this.drive_to_pump;
+    };
+
+    Pump.prototype.tankToPump = function() {
+      this.tank_to_pump = !this.tank_to_pump;
+      if (this.tank_to_pump && this.drive_to_pump) {
+        this.processWaterLoss();
+      }
+      return this.tank_to_pump;
+    };
 
     Pump.prototype.pressure = function() {
       return (this.idle_percentage / 100.0) * this.max_pressure;
@@ -72,6 +90,30 @@
       }
       intake_str.substr(0, intake_str - 1);
       return "pressure:" + this.pressure() + discharge_str + intake_str + "],tank:" + this.tank + ",max_pressure:" + this.max_pressure + ",relief_valve:" + this.relief_valve;
+    };
+
+    Pump.prototype.reduceTankWater = function(gallons) {
+      this.tank -= gallons;
+      if (this.tank < 0) {
+        return this.tank = 0;
+      }
+    };
+
+    Pump.prototype.processWaterLoss = function() {
+      var _this = this;
+      if (this.flow_interval) {
+        clearInterval(this.flow_interval);
+      }
+      return this.flow_interval = setInterval(function() {
+        var valve, _i, _len, _ref, _results;
+        _ref = _this.discharge;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          valve = _ref[_i];
+          _results.push(_this.reduceTankWater(valve.hose.gallons_per_second()));
+        }
+        return _results;
+      }, 1000);
     };
 
     return Pump;

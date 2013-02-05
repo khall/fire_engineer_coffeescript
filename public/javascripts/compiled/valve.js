@@ -18,24 +18,16 @@
       }
       this.hose = hose;
       this.pump = pump;
-      this.flow_interval = null;
     }
 
     Valve.prototype.setOpenPercentage = function(percent) {
-      var _this = this;
       if (percent > 100) {
         percent = 100;
       }
       if (percent < 0) {
         percent = 0;
       }
-      this.open_percentage = percent;
-      if (this.flow_interval) {
-        clearInterval(this.flow_interval);
-      }
-      return this.flow_interval = setInterval(function() {
-        return _this.pump.tank -= _this.hose.gallons_per_second();
-      }, 1000);
+      return this.open_percentage = percent;
     };
 
     Valve.prototype.pressureOut = function() {

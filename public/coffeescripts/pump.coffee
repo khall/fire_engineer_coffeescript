@@ -10,6 +10,18 @@ class App.Pump
     @relief_valve = relief_valve
     @tank_to_pump = false
     @tank_fill = false
+    @drive_to_pump = false
+    @flow_interval = null
+
+  driveToPump: ->
+    @drive_to_pump = !@drive_to_pump
+    @processWaterLoss() if @tank_to_pump && @drive_to_pump
+    @drive_to_pump
+
+  tankToPump: ->
+    @tank_to_pump = !@tank_to_pump
+    @processWaterLoss() if @tank_to_pump && @drive_to_pump
+    @tank_to_pump
 
   pressure: ->
     (@idle_percentage / 100.0) * @max_pressure
@@ -36,5 +48,15 @@ class App.Pump
     intake_str.substr(0, intake_str - 1)
 
     "pressure:" + @pressure() + discharge_str + intake_str + "],tank:" + @tank + ",max_pressure:" + @max_pressure + ",relief_valve:" + @relief_valve
+
+  reduceTankWater: (gallons) ->
+    @tank -= gallons
+    @tank = 0 if @tank < 0
+
+  processWaterLoss: ->
+    clearInterval(@flow_interval) if @flow_interval
+    @flow_interval = setInterval =>
+      @reduceTankWater(valve.hose.gallons_per_second()) for valve in @discharge
+    , 1000
 
   # TODO: drafting / suction

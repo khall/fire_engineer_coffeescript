@@ -19,9 +19,9 @@ class App.Scenario
     num_issues = @rand(2)
     num_hoses = @rand(2)
 
-    discharge = (new App.Valve(@rand(101), new App.Hose(@rand(10) * 50, 1.75, @rand(51) * 5 - 125)) for num in [0..num_hoses])
+    discharge = new App.Valve(@rand(101), new App.Hose(@rand(10) * 50, 1.75, @rand(51) * 5 - 125)) for num in [0..num_hoses]
 
-    p = new App.Pump(100, discharge, [], 500)
+    p = new App.Pump(100, [discharge], [], 500)
 
     # record current settings to create the answer
     @answer_str = p.toStr()
@@ -46,6 +46,7 @@ class App.Scenario
     if issues.indexOf('relief_valve') != -1
       @changes_needed.push(['relief valve', p.relief_valve])
       p.relief_valve = parseInt(p.relief_valve * @rand(100) / 100.0)
+
     @pump = p
 
   morePressureAllLines: ->

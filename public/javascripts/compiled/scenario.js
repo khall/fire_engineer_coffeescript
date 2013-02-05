@@ -10,22 +10,17 @@
     }
 
     Scenario.prototype.easy = function() {
-      var chosen_issues, count, df, discharge, issues, num, num_hoses, num_issues, p, _i;
+      var chosen_issues, count, df, discharge, issues, num, num_hoses, num_issues, p, _i, _j;
       num_issues = this.rand(2);
       num_hoses = this.rand(2);
-      discharge = (function() {
-        var _i, _results;
-        _results = [];
-        for (num = _i = 0; 0 <= num_hoses ? _i <= num_hoses : _i >= num_hoses; num = 0 <= num_hoses ? ++_i : --_i) {
-          _results.push(new App.Valve(this.rand(101), new App.Hose(this.rand(10) * 50, 1.75, this.rand(51) * 5 - 125)));
-        }
-        return _results;
-      }).call(this);
-      p = new App.Pump(100, discharge, [], 500);
+      for (num = _i = 0; 0 <= num_hoses ? _i <= num_hoses : _i >= num_hoses; num = 0 <= num_hoses ? ++_i : --_i) {
+        discharge = new App.Valve(this.rand(101), new App.Hose(this.rand(10) * 50, 1.75, this.rand(51) * 5 - 125));
+      }
+      p = new App.Pump(100, [discharge], [], 500);
       this.answer_str = p.toStr();
       issues = [];
       chosen_issues = [];
-      for (num = _i = 0; 0 <= num_issues ? _i <= num_issues : _i >= num_issues; num = 0 <= num_issues ? ++_i : --_i) {
+      for (num = _j = 0; 0 <= num_issues ? _j <= num_issues : _j >= num_issues; num = 0 <= num_issues ? ++_j : --_j) {
         count = 0;
         df = this.rand(this.direct_factors.length);
         while (chosen_issues.indexOf(df) !== -1 && count < 100) {
