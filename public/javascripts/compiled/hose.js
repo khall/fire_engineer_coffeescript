@@ -94,6 +94,10 @@
       return parseFloat((29.7 * Math.pow(this.nozzle_float, 2) * Math.sqrt(this.nozzle_pressure())).toFixed(3));
     };
 
+    Hose.prototype.gallons_per_second = function() {
+      return this.gallons_per_minute() / 60.0;
+    };
+
     Hose.prototype.nozzle_pressure = function() {
       var np;
       np = parseFloat((this.valve.pressureOut() - this.total_pressure_loss()).toFixed(3));

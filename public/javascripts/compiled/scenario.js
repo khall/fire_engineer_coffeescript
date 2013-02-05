@@ -3,7 +3,7 @@
   App.Scenario = (function() {
 
     function Scenario() {
-      this.direct_factors = ['pump_pressure', 'release_valve'];
+      this.direct_factors = ['pump_pressure', 'relief_valve'];
       this.answer_str = null;
       this.changes_needed = [];
       this.pump = null;
@@ -39,9 +39,9 @@
         this.changes_needed.push(['pump pressure', p.pressure()]);
         p.setPressure(parseInt(p.pressure() * this.rand(100) / 100.0));
       }
-      if (issues.indexOf('release_valve') !== -1) {
-        this.changes_needed.push(['release valve', p.release_valve]);
-        p.release_valve = parseInt(p.release_valve * this.rand(100) / 100.0);
+      if (issues.indexOf('relief_valve') !== -1) {
+        this.changes_needed.push(['relief valve', p.relief_valve]);
+        p.relief_valve = parseInt(p.relief_valve * this.rand(100) / 100.0);
       }
       return this.pump = p;
     };

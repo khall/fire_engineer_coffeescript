@@ -11,7 +11,7 @@ describe 'Scenario', ->
       expect(num_right + 3).toBeGreaterThan(answers.length)
       expect(num_right).not.toEqual(answers.length)
       expect(num_right).toBeLessThan(answers.length)
-      expect(s.changes_needed[0][0].indexOf('pump pressure') + s.changes_needed[1][0].indexOf('release valve')).toBeGreaterThan(-2)
+      expect(s.changes_needed[0][0].indexOf('pump pressure') + s.changes_needed[1][0].indexOf('relief valve')).toBeGreaterThan(-2)
 
   describe 'morePressure', ->
     it 'should create a scenario where more pressure is needed', ->
@@ -20,7 +20,8 @@ describe 'Scenario', ->
       p = s.pump
 
       # either the pump idle percentage needs to be increased or the hose valve needs to be opened more
-      expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan(p.discharge[0].hose.desired_nozzle_pressure())
+      expect(p).not.toEqual null
+      expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan p.discharge[0].hose.desired_nozzle_pressure()
 
   describe 'Rand', ->
     s = null

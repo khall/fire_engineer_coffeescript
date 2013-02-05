@@ -16,7 +16,7 @@
         expect(num_right + 3).toBeGreaterThan(answers.length);
         expect(num_right).not.toEqual(answers.length);
         expect(num_right).toBeLessThan(answers.length);
-        return expect(s.changes_needed[0][0].indexOf('pump pressure') + s.changes_needed[1][0].indexOf('release valve')).toBeGreaterThan(-2);
+        return expect(s.changes_needed[0][0].indexOf('pump pressure') + s.changes_needed[1][0].indexOf('relief valve')).toBeGreaterThan(-2);
       });
     });
     describe('morePressure', function() {
@@ -25,6 +25,7 @@
         s = new App.Scenario;
         s.morePressureAllLines();
         p = s.pump;
+        expect(p).not.toEqual(null);
         return expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan(p.discharge[0].hose.desired_nozzle_pressure());
       });
     });

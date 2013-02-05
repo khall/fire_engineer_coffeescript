@@ -11,7 +11,7 @@
         var pump = scenario.easy();
         console.log(scenario.answer_str);
         var interval = setInterval(function() {
-            newPump = new App.Pump($('#pressure').val(), pump.discharge, pump.intake, pump.tank, pump.max_pressure, $('#release_valve').val());
+            newPump = new App.Pump($('#pressure').val(), pump.discharge, pump.intake, pump.tank, pump.max_pressure, $('#relief_valve').val());
             if (scenario.checkAnswer(newPump)) {
                 alert('correct!');
                 clearInterval(interval);
@@ -20,12 +20,31 @@
 
             $('#pressure').val(pump.pressure());
             $('#intake_pressure').val(pump.intake);
-            $('#release_valve').val(pump.release_valve);
+            $('#relief_valve').val(pump.relief_valve);
             $('#tank').val(pump.tank);
             $('#open_percentage').val(pump.discharge[0].open_percentage);
             $('#distance').val(pump.discharge[0].hose.distance);
             $('#diameter').val(pump.discharge[0].hose.diameter);
         }, 1000);
+
+        var tank_to_pump = function() {
+            var ttp = $('#tank_to_pump_indicator');
+            ttp.html(ttp.html() == 'Open' ? 'Closed' : 'Open');
+        }
+
+        var tank_fill = function() {
+            var tf = $('#tank_fill_indicator');
+            tf.html(tf.html() == 'Open' ? 'Closed' : 'Open');
+        }
+
+        var drive_pump = function() {
+            var dp = $('#drive_pump_indicator');
+            dp.html(dp.html() == 'Pump' ? 'Drive' : 'Pump');
+        }
+
+        var valve_adjust = function(input) {
+            $('#open_percentage').val($(input).val());
+        }
     </script>
 </head>
 <body>
@@ -34,20 +53,35 @@
         <p>
             Idle Speed
             <input id="pressure"/>
-            <input type="button" id="raise_idle" value="Raise"/>
-            <input type="button" id="lower_idle" value="Lower"/>
+            <input type="range" id="idle_speed" min="0" max="100" onchange="valve_adjust(this)"/>
+            <!--<input type="button" id="raise_idle" value="Raise"/>-->
+            <!--<input type="button" id="lower_idle" value="Lower"/>-->
         </p>
         <p>
             Intake Pressure
             <input id="intake_pressure"/>
         </p>
         <p>
-            Release Valve
-            <input id="release_valve"/></p>
+            Relief Valve
+            <input id="relief_valve"/>
+        </p>
         <p>Tank<input id="tank"/></p>
+        <p>
+            <input type="button" id="tank_to_pump" value="Tank to Pump" onclick="tank_to_pump()"/>
+            <span id="tank_to_pump_indicator">Closed</span>
+        </p>
+        <p>
+            <input type="button" id="tank_fill" value="Tank Fill" onclick="tank_fill()"/>
+            <span id="tank_fill_indicator">Closed</span>
+        </p>
+        <p>
+            <input type="button" id="drive_pump" value="Drive/Pump" onclick="drive_pump()"/>
+            <span id="drive_pump_indicator">Drive</span>
+        </p>
     </p>
     <p>
         <h2>Valve</h2>
+        <input type="range" min="0" max="100" onchange="valve_adjust(this)"/>
         <p>Open %<input id="open_percentage"/></p>
     </p>
     <p>
@@ -56,8 +90,9 @@
         <p>Diameter<input id="diameter"/></p>
     </p>
     <script type="text/javascript">
-        $('#raise_idle').bind('click', function(){ pump.idle_percentage += 10; });
-        $('#lower_idle').bind('click', function(){ pump.idle_percentage -= 10; });
+//        $('#raise_idle').bind('click', function(){ pump.idle_percentage += 10; });
+//        $('#lower_idle').bind('click', function(){ pump.idle_percentage -= 10; });
+        $('#idle_speed').bind('change', function(){ pump.idle_percentage = $(this).val(); });
     </script>
 </body>
 </html>

@@ -1,13 +1,15 @@
 class App.Pump
   # discharge and intake arrays should have valve objects
-  constructor: (idle_percentage = 0, discharge = [], intake = [], tank = null, max_pressure = 300, release_valve = 160) ->
+  constructor: (idle_percentage = 0, discharge = [], intake = [], tank = null, max_pressure = 300, relief_valve = 160) ->
     @idle_percentage = idle_percentage
     valve.pump = this for valve in discharge
     @discharge = discharge
     @intake = intake
     @tank = tank
     @max_pressure = max_pressure
-    @release_valve = release_valve
+    @relief_valve = relief_valve
+    @tank_to_pump = false
+    @tank_fill = false
 
   pressure: ->
     (@idle_percentage / 100.0) * @max_pressure
@@ -33,6 +35,6 @@ class App.Pump
     intake_str += i.toStr() + "," for i in @intake
     intake_str.substr(0, intake_str - 1)
 
-    "pressure:" + @pressure() + discharge_str + intake_str + "],tank:" + @tank + ",max_pressure:" + @max_pressure + ",release_valve:" + @release_valve
+    "pressure:" + @pressure() + discharge_str + intake_str + "],tank:" + @tank + ",max_pressure:" + @max_pressure + ",relief_valve:" + @relief_valve
 
   # TODO: drafting / suction

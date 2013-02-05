@@ -31,7 +31,7 @@
         expect(p.intake[0]).toEqual(iv);
         expect(p.tank).toEqual(500);
         expect(p.max_pressure).toEqual(350);
-        return expect(p.release_valve).toEqual(145);
+        return expect(p.relief_valve).toEqual(145);
       });
     });
     describe('pressure: ', function() {

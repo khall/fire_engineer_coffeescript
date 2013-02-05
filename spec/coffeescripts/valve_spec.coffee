@@ -21,9 +21,44 @@ describe 'Valve: ', ->
       expect(v.pressureOut()).toEqual 0
 
     it 'should return 60 when the valve is half opened', ->
-      v.open_percentage = 50
+      v.setOpenPercentage(50)
       expect(v.pressureOut()).toEqual 60
 
     it 'should return 120 when the valve is fully opened', ->
-      v.open_percentage = 100
+      v.setOpenPercentage(100)
       expect(v.pressureOut()).toEqual 120
+
+  describe 'setOpenPercentage', ->
+    pump = null
+    v = null
+
+    beforeEach ->
+      pump = new App.Pump(0, [], [], 1000)
+      v = new App.Valve(0, new App.Hose(), pump)
+      pump.idle_percentage = 40
+
+    it 'should open the valve 50 percent', ->
+      v.setOpenPercentage(50)
+      expect(v.open_percentage).toEqual 50
+
+    it 'should open the valve 100 percent', ->
+      v.setOpenPercentage(100)
+      expect(v.open_percentage).toEqual 100
+
+    it 'should open the valve 0 percent', ->
+      v.setOpenPercentage(0)
+      expect(v.open_percentage).toEqual 0
+
+    it 'should not open the valve to 110 percent', ->
+      v.setOpenPercentage(110)
+      expect(v.open_percentage).toEqual 100
+
+    it 'should not open the valve to -10 percent', ->
+      v.setOpenPercentage(-10)
+      expect(v.open_percentage).toEqual 0
+
+    it 'should drain tank after a second', ->
+      jasmine.Clock.useMock()
+      v.setOpenPercentage(100)
+      jasmine.Clock.tick(1000)
+      expect(pump.tank).toBeLessThan(1000)

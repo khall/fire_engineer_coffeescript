@@ -2,7 +2,7 @@
 
   App.Pump = (function() {
 
-    function Pump(idle_percentage, discharge, intake, tank, max_pressure, release_valve) {
+    function Pump(idle_percentage, discharge, intake, tank, max_pressure, relief_valve) {
       var valve, _i, _len;
       if (idle_percentage == null) {
         idle_percentage = 0;
@@ -19,8 +19,8 @@
       if (max_pressure == null) {
         max_pressure = 300;
       }
-      if (release_valve == null) {
-        release_valve = 160;
+      if (relief_valve == null) {
+        relief_valve = 160;
       }
       this.idle_percentage = idle_percentage;
       for (_i = 0, _len = discharge.length; _i < _len; _i++) {
@@ -31,7 +31,9 @@
       this.intake = intake;
       this.tank = tank;
       this.max_pressure = max_pressure;
-      this.release_valve = release_valve;
+      this.relief_valve = relief_valve;
+      this.tank_to_pump = false;
+      this.tank_fill = false;
     }
 
     Pump.prototype.pressure = function() {
@@ -69,7 +71,7 @@
         intake_str += i.toStr() + ",";
       }
       intake_str.substr(0, intake_str - 1);
-      return "pressure:" + this.pressure() + discharge_str + intake_str + "],tank:" + this.tank + ",max_pressure:" + this.max_pressure + ",release_valve:" + this.release_valve;
+      return "pressure:" + this.pressure() + discharge_str + intake_str + "],tank:" + this.tank + ",max_pressure:" + this.max_pressure + ",relief_valve:" + this.relief_valve;
     };
 
     return Pump;

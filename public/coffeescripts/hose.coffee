@@ -57,6 +57,9 @@ class App.Hose
 #    console.log('xxxxxxxxxxxxxxxxxxx')
     parseFloat((29.7 * Math.pow(@nozzle_float, 2) * Math.sqrt(@nozzle_pressure())).toFixed(3))
 
+  gallons_per_second: ->
+    @gallons_per_minute() / 60.0
+
   nozzle_pressure: ->
     # nozzle pressure = pump discharge pressure - total pressure loss
 #    console.log("pdp: " + @valve.pressureOut())

@@ -1,7 +1,7 @@
 class App.Scenario
   constructor: ->
-#    @direct_factors = ['pump_pressure', 'release_valve', 'valve1', 'valve2', 'valve3', 'valve4', 'connection1?']
-    @direct_factors = ['pump_pressure', 'release_valve']
+#    @direct_factors = ['pump_pressure', 'relief_valve', 'valve1', 'valve2', 'valve3', 'valve4', 'connection1?']
+    @direct_factors = ['pump_pressure', 'relief_valve']
     @answer_str = null
     @changes_needed = []
     @pump = null
@@ -9,7 +9,7 @@ class App.Scenario
   # create a situation where only one or two directly controllable factors need changing in order to be correct
   # directly controllable factors:
   # 1. pump pressure
-  # 2. release valve
+  # 2. relief valve
   # 3. hose valves (1-4)
   # 4. hose connections?
   #
@@ -43,9 +43,9 @@ class App.Scenario
     if issues.indexOf('pump_pressure') != -1
       @changes_needed.push(['pump pressure', p.pressure()])
       p.setPressure(parseInt(p.pressure() * @rand(100) / 100.0))
-    if issues.indexOf('release_valve') != -1
-      @changes_needed.push(['release valve', p.release_valve])
-      p.release_valve = parseInt(p.release_valve * @rand(100) / 100.0)
+    if issues.indexOf('relief_valve') != -1
+      @changes_needed.push(['relief valve', p.relief_valve])
+      p.relief_valve = parseInt(p.relief_valve * @rand(100) / 100.0)
     @pump = p
 
   morePressureAllLines: ->
