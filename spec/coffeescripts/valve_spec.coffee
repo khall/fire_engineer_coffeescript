@@ -56,9 +56,3 @@ describe 'Valve: ', ->
     it 'should not open the valve to -10 percent', ->
       v.setOpenPercentage(-10)
       expect(v.open_percentage).toEqual 0
-
-    it 'should drain tank after a second', ->
-      jasmine.Clock.useMock()
-      v.setOpenPercentage(100)
-      jasmine.Clock.tick(1000)
-      expect(pump.tank).toBeLessThan(1000)

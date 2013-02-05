@@ -75,6 +75,13 @@ class App.Hose
     # @pressure = Math.pow(gpm / (29.7 * Math.pow(@diameter, 2)), 2)
     parseFloat(Math.pow(gpm / (29.7 * Math.pow(@nozzle_float, 2)), 2).toFixed(3))
 
+  desiredNozzlePressure: ->
+    if @nozzle_str of smooth_bore_nozzle_gpm
+      nozzle_type = 'smooth bore'
+    else
+      nozzle_type = 'fog'
+    desired_nozzle_pressure[nozzle_type]
+
   toStr: (with_valve = false) ->
     valve = if with_valve then @valve.toStr() else ""
     "distance:" + @distance + ",diameter:" + @diameter + ",elevation:" + @elevation + ",max_pressure:" + @max_pressure +

@@ -26,7 +26,7 @@
         s.morePressureAllLines();
         p = s.pump;
         expect(p).not.toEqual(null);
-        return expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan(p.discharge[0].hose.desired_nozzle_pressure());
+        return expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan(p.discharge[0].hose.desiredNozzlePressure());
       });
     });
     return describe('Rand', function() {

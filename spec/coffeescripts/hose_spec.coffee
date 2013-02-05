@@ -74,5 +74,7 @@ describe 'Hose: ', ->
 
   describe 'desired nozzle pressure', ->
     it 'should return 50 for a smooth bore nozzle', ->
+      v = new App.Valve()
       h = new App.Hose(100, 1.75, 0, 300, v, '15/16')
-      h.desiredNozzlePressure()
+      dnp = h.desiredNozzlePressure()
+      expect(dnp).toEqual 50

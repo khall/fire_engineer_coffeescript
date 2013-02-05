@@ -116,6 +116,16 @@
       return parseFloat(Math.pow(gpm / (29.7 * Math.pow(this.nozzle_float, 2)), 2).toFixed(3));
     };
 
+    Hose.prototype.desiredNozzlePressure = function() {
+      var nozzle_type;
+      if (this.nozzle_str in smooth_bore_nozzle_gpm) {
+        nozzle_type = 'smooth bore';
+      } else {
+        nozzle_type = 'fog';
+      }
+      return desired_nozzle_pressure[nozzle_type];
+    };
+
     Hose.prototype.toStr = function(with_valve) {
       var valve;
       if (with_valve == null) {

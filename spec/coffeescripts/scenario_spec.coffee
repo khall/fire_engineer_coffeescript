@@ -21,7 +21,7 @@ describe 'Scenario', ->
 
       # either the pump idle percentage needs to be increased or the hose valve needs to be opened more
       expect(p).not.toEqual null
-      expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan p.discharge[0].hose.desired_nozzle_pressure()
+      expect(p.discharge[0].hose.nozzle_pressure()).toBeLessThan p.discharge[0].hose.desiredNozzlePressure()
 
   describe 'Rand', ->
     s = null

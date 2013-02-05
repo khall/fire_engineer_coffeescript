@@ -56,6 +56,17 @@ describe 'Pump: ', ->
       p = new App.Pump(50, [], [hydrant1, hydrant2])
       expect(p.totalIntakePressure()).toEqual 115
 
+  describe 'process water loss', ->
+    it 'should drain tank after a second', ->
+      jasmine.Clock.useMock()
+      p = new App.Pump(100, [new App.Valve(100, new App.Hose())], [], 1000)
+      expect(p.tank).toEqual 1000
+      p.driveToPump()
+      p.tankToPump()
+      jasmine.Clock.tick(1000)
+      expect(p.tank).toBeLessThan 1000
+
+
 #  describe 'adjust pressure: ', ->
 #    p = null
 #

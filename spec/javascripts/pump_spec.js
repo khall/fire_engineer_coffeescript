@@ -51,7 +51,7 @@
         return expect(p.pressure()).toEqual(150);
       });
     });
-    return describe('totalIntakePressue: ', function() {
+    describe('totalIntakePressue: ', function() {
       it('should add a single intake so it equals its own pressure', function() {
         var hydrant, p;
         hydrant = new App.Hydrant(60, 100);
@@ -64,6 +64,18 @@
         hydrant2 = new App.Hydrant(55, 100);
         p = new App.Pump(50, [], [hydrant1, hydrant2]);
         return expect(p.totalIntakePressure()).toEqual(115);
+      });
+    });
+    return describe('process water loss', function() {
+      return it('should drain tank after a second', function() {
+        var p;
+        jasmine.Clock.useMock();
+        p = new App.Pump(100, [new App.Valve(100, new App.Hose())], [], 1000);
+        expect(p.tank).toEqual(1000);
+        p.driveToPump();
+        p.tankToPump();
+        jasmine.Clock.tick(1000);
+        return expect(p.tank).toBeLessThan(1000);
       });
     });
   });

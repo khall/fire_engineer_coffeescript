@@ -50,7 +50,8 @@ class App.Scenario
     @pump = p
 
   morePressureAllLines: ->
-    p = new App.Pump(25)
+    p = new App.Pump(25, [new App.Valve(100, new App.Hose())])
+    @pump = p
 
   checkAnswer: (p) ->
     p.toStr() == @answer_str

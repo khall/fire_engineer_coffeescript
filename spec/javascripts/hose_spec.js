@@ -95,9 +95,11 @@
     });
     return describe('desired nozzle pressure', function() {
       return it('should return 50 for a smooth bore nozzle', function() {
-        var h;
+        var dnp, h, v;
+        v = new App.Valve();
         h = new App.Hose(100, 1.75, 0, 300, v, '15/16');
-        return h.desiredNozzlePressure();
+        dnp = h.desiredNozzlePressure();
+        return expect(dnp).toEqual(50);
       });
     });
   });

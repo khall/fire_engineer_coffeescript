@@ -58,15 +58,9 @@
         v.setOpenPercentage(110);
         return expect(v.open_percentage).toEqual(100);
       });
-      it('should not open the valve to -10 percent', function() {
+      return it('should not open the valve to -10 percent', function() {
         v.setOpenPercentage(-10);
         return expect(v.open_percentage).toEqual(0);
-      });
-      return it('should drain tank after a second', function() {
-        jasmine.Clock.useMock();
-        v.setOpenPercentage(100);
-        jasmine.Clock.tick(1000);
-        return expect(pump.tank).toBeLessThan(1000);
       });
     });
   });
