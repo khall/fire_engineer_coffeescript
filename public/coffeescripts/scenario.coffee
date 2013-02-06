@@ -49,12 +49,45 @@ class App.Scenario
 
     @pump = p
 
+  ############
+  # Easy / one change problems
+  ############
   morePressureAllLines: ->
     p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300)
     @pump = p
+
+  morePressureOneLine: ->
+    # TODO
+
+  lessPressureAllLines: ->
+    p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300)
+    @pump = p
+
+  lessPressureOneLine: ->
+    # TODO
+
+  addOnMoreHoseOneLine: ->
+    # TODO
+
+  compensateForElevatedHose: ->
+    # TODO
+
+  protectLineFromSurge: ->
+    # TODO
+
+  chargeSecondLineWhileKeepingFirstConstant: ->
+    # TODO
 
   checkAnswer: (p) ->
     p.toStr() == @answer_str
 
   rand: (upper_limit) ->
     Math.floor(Math.random() * upper_limit)
+
+#  http://www.firefighternation.com/article/engine-co-operations/pump-operator-skills-modern-fireground
+#  Hose needs more pressure
+#  Hose has too much pressure
+#  Adding on more hose
+#  Raising hose elevation
+#  Protect hose from water surge using relief valve
+#  Charge second line while keeping pressure constant on first line

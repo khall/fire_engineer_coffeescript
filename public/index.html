@@ -13,17 +13,18 @@
         var matching_pumps = (pump == pump.discharge[0].pump);
         console.log("pumps match? " + matching_pumps);
         var interval = setInterval(function() {
-//            newPump = new App.Pump($('#pressure').val(), pump.discharge, pump.intake, pump.tank, pump.max_pressure, $('#relief_valve').val());
-//            if (scenario.checkAnswer(newPump)) {
-//                alert('correct!');
-//                clearInterval(interval);
-//                return;
-//            }
+            newPump = new App.Pump($('#idle_percentage').val(), pump.discharge, pump.intake, pump.tank, pump.max_pressure, $('#relief_valve').val());
+            if (scenario.checkAnswer(newPump)) {
+                alert('correct!');
+                clearInterval(interval);
+                return;
+            }
 
             $('#idle_percentage').val(pump.idle_percentage);
             $('#idle_percentage_range').val(pump.idle_percentage);
             $('#intake_pressure').val(pump.intake);
             $('#relief_valve').val(pump.relief_valve);
+            $('#relief_valve_range').val(pump.relief_valve);
             $('#tank').val(pump.tank);
             $('#open_percentage').val(pump.discharge[0].open_percentage);
             $('#open_percentage_range').val(pump.discharge[0].open_percentage);
@@ -34,6 +35,8 @@
             $('#total_pressure_loss').val(pump.discharge[0].hose.total_pressure_loss());
             $('#gpm').val(pump.discharge[0].hose.gallons_per_minute());
             $('#nozzle_pressure').val(pump.discharge[0].hose.nozzle_pressure());
+
+            $('#problem').html(scenario.changes_needed[0][0])
         }, 1000);
 
         var tank_to_pump = function() {
@@ -55,17 +58,24 @@
             $('#open_percentage').val($(input).val());
             pump.discharge[0].setOpenPercentage(parseInt($(input).val()));
         }
+
+        var relief_valve_adjust = function(input) {
+            $('#relief_valve').val($(input).val());
+            pump.relief_valve = $(input).val();
+        }
     </script>
 </head>
 <body>
+    <p>
+        <h2>Problem</h2>
+        <p id="problem"></p>
+    </p>
     <p>
         <h2>Pump</h2>
         <p>
             Idle Speed
             <input id="idle_percentage"/>
             <input type="range" id="idle_percentage_range" min="0" max="100" onchange="valve_adjust(this)"/>
-            <!--<input type="button" id="raise_idle" value="Raise"/>-->
-            <!--<input type="button" id="lower_idle" value="Lower"/>-->
         </p>
         <p>
             Intake Pressure
@@ -74,8 +84,12 @@
         <p>
             Relief Valve
             <input id="relief_valve"/>
+            <input type="range" id="relief_valve_range" min="0" max="300" onchange="relief_valve_adjust(this)"/>
         </p>
-        <p>Tank<input id="tank"/></p>
+        <p>
+            Tank
+            <input id="tank"/>
+        </p>
         <p>
             <input type="button" id="tank_to_pump" value="Tank to Pump" onclick="tank_to_pump()"/>
             <span id="tank_to_pump_indicator">Closed</span>
