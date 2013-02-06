@@ -17,7 +17,7 @@
         tank = null;
       }
       if (max_pressure == null) {
-        max_pressure = 300;
+        max_pressure = 600;
       }
       if (relief_valve == null) {
         relief_valve = 160;

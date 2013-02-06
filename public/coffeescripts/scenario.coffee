@@ -50,7 +50,7 @@ class App.Scenario
     @pump = p
 
   morePressureAllLines: ->
-    p = new App.Pump(25, [new App.Valve(100, new App.Hose())])
+    p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300)
     @pump = p
 
   checkAnswer: (p) ->

@@ -43,7 +43,7 @@
 
     Scenario.prototype.morePressureAllLines = function() {
       var p;
-      p = new App.Pump(25, [new App.Valve(100, new App.Hose())]);
+      p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300);
       return this.pump = p;
     };
 

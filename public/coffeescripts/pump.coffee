@@ -1,6 +1,6 @@
 class App.Pump
   # discharge and intake arrays should have valve objects
-  constructor: (idle_percentage = 0, discharge = [], intake = [], tank = null, max_pressure = 300, relief_valve = 160) ->
+  constructor: (idle_percentage = 0, discharge = [], intake = [], tank = null, max_pressure = 600, relief_valve = 160) ->
     @idle_percentage = idle_percentage
     valve.pump = this for valve in discharge
     @discharge = discharge

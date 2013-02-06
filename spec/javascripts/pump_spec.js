@@ -42,12 +42,12 @@
       });
       it('should set pressure to 300 if idle percentage is 100', function() {
         var p;
-        p = new App.Pump(100, []);
+        p = new App.Pump(100, [], [], 1000, 300);
         return expect(p.pressure()).toEqual(300);
       });
       return it('should set pressure to 150 if idle percentage is 50', function() {
         var p;
-        p = new App.Pump(50, []);
+        p = new App.Pump(50, [], [], 1000, 300);
         return expect(p.pressure()).toEqual(150);
       });
     });

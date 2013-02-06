@@ -3,7 +3,7 @@
   describe('Scenario', function() {
     describe('Easy', function() {
       return it('should come up with a easily solvable scenario', function() {
-        var answers, num, num_right, problems, s, _i, _ref;
+        var answers, names, num, num_right, problems, s, _i, _ref;
         s = new App.Scenario;
         problems = s.easy().toStr().split(',');
         answers = s.answer_str.split(',');
@@ -16,7 +16,10 @@
         expect(num_right + 3).toBeGreaterThan(answers.length);
         expect(num_right).not.toEqual(answers.length);
         expect(num_right).toBeLessThan(answers.length);
-        return expect(s.changes_needed[0][0].indexOf('pump pressure') + s.changes_needed[1][0].indexOf('relief valve')).toBeGreaterThan(-2);
+        names = s.changes_needed.map(function(changes) {
+          return changes[0];
+        });
+        return expect(names.indexOf('pump pressure') + names.indexOf('relief valve')).toBeGreaterThan(-2);
       });
     });
     describe('morePressure', function() {

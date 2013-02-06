@@ -17,9 +17,8 @@
       pump = null;
       v = null;
       beforeEach(function() {
-        pump = new App.Pump();
-        v = new App.Valve(0, new App.Hose(), pump);
-        return pump.idle_percentage = 40;
+        pump = new App.Pump(40, [], [], 1000, 300);
+        return v = new App.Valve(0, new App.Hose(), pump);
       });
       it('should return 0 when the valve is closed', function() {
         return expect(v.pressureOut()).toEqual(0);
@@ -38,9 +37,8 @@
       pump = null;
       v = null;
       beforeEach(function() {
-        pump = new App.Pump(0, [], [], 1000);
-        v = new App.Valve(0, new App.Hose(), pump);
-        return pump.idle_percentage = 40;
+        pump = new App.Pump(40, [], [], 1000);
+        return v = new App.Valve(0, new App.Hose(), pump);
       });
       it('should open the valve 50 percent', function() {
         v.setOpenPercentage(50);

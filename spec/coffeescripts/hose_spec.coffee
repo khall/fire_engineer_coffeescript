@@ -55,13 +55,13 @@ describe 'Hose: ', ->
 
   describe 'gallons per minute', ->
     it 'should return 184 gpm for 100 feet of 1.75" hose with a 15/16 smooth bore tip', ->
-      v = new App.Valve(100, null, new App.Pump(33.3333))
+      v = new App.Valve(100, null, new App.Pump(33.3333, [], [], 500, 300))
       h = new App.Hose(100, 1.75, 0, 300, v, '15/16')
       expect(h.gallons_per_minute()).toEqual 179.95
 
   describe 'nozzle pressure', ->
     it 'should return 50 psi for 0 feet of hose with 50 psi at pump', ->
-      v = new App.Valve(100, null, new App.Pump(16.6667))
+      v = new App.Valve(100, null, new App.Pump(16.6667, [], [], 500, 300))
       h = new App.Hose(0, 1.75, 0, 300, v, '15/16')
       expect(h.nozzle_pressure()).toEqual 50
 

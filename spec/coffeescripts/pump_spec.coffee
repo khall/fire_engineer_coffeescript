@@ -35,11 +35,11 @@ describe 'Pump: ', ->
       expect(p.pressure()).toEqual 0
 
     it 'should set pressure to 300 if idle percentage is 100', ->
-      p = new App.Pump(100, [])
+      p = new App.Pump(100, [], [], 1000, 300)
       expect(p.pressure()).toEqual 300
 
     it 'should set pressure to 150 if idle percentage is 50', ->
-      p = new App.Pump(50, [])
+      p = new App.Pump(50, [], [], 1000, 300)
       expect(p.pressure()).toEqual 150
 
   describe 'totalIntakePressue: ', ->

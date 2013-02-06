@@ -13,9 +13,8 @@ describe 'Valve: ', ->
     v = null
 
     beforeEach ->
-      pump = new App.Pump()
+      pump = new App.Pump(40, [], [], 1000, 300)
       v = new App.Valve(0, new App.Hose(), pump)
-      pump.idle_percentage = 40
 
     it 'should return 0 when the valve is closed', ->
       expect(v.pressureOut()).toEqual 0
@@ -33,9 +32,8 @@ describe 'Valve: ', ->
     v = null
 
     beforeEach ->
-      pump = new App.Pump(0, [], [], 1000)
+      pump = new App.Pump(40, [], [], 1000)
       v = new App.Valve(0, new App.Hose(), pump)
-      pump.idle_percentage = 40
 
     it 'should open the valve 50 percent', ->
       v.setOpenPercentage(50)

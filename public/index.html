@@ -20,11 +20,13 @@
 //                return;
 //            }
 
-            $('#pressure').val(pump.pressure());
+            $('#idle_percentage').val(pump.idle_percentage);
+            $('#idle_percentage_range').val(pump.idle_percentage);
             $('#intake_pressure').val(pump.intake);
             $('#relief_valve').val(pump.relief_valve);
             $('#tank').val(pump.tank);
             $('#open_percentage').val(pump.discharge[0].open_percentage);
+            $('#open_percentage_range').val(pump.discharge[0].open_percentage);
             $('#valve_pressure_out').val(pump.discharge[0].pressureOut());
             $('#distance').val(pump.discharge[0].hose.distance);
             $('#diameter').val(pump.discharge[0].hose.diameter);
@@ -60,8 +62,8 @@
         <h2>Pump</h2>
         <p>
             Idle Speed
-            <input id="pressure"/>
-            <input type="range" id="idle_speed" min="0" max="100" onchange="valve_adjust(this)"/>
+            <input id="idle_percentage"/>
+            <input type="range" id="idle_percentage_range" min="0" max="100" onchange="valve_adjust(this)"/>
             <!--<input type="button" id="raise_idle" value="Raise"/>-->
             <!--<input type="button" id="lower_idle" value="Lower"/>-->
         </p>
@@ -89,7 +91,7 @@
     </p>
     <p>
         <h2>Valve</h2>
-        <input type="range" min="0" max="100" onchange="valve_adjust(this)"/>
+        <input type="range" id="open_percentage_range" min="0" max="100" onchange="valve_adjust(this)"/>
         <p>Open %<input id="open_percentage"/></p>
         <p>Pressure Out<input id="valve_pressure_out"/></p>
     </p>
