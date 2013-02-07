@@ -48,14 +48,14 @@ class App.Hose
 #    console.log("fl: " + @friction_loss())
 #    console.log("al: " + @appliance_loss())
 #    console.log("el: " + @elevation_loss())
-    @friction_loss() + @appliance_loss() + @elevation_loss()
+    (@friction_loss() + @appliance_loss() + @elevation_loss()).toFixed(1)
 
   gallons_per_minute: ->
 #    console.log('gpm: ' + (29.7 * Math.pow(@diameter, 2) * Math.sqrt(@nozzle_pressure())))
 #    console.log('diameter: ' + @diameter)
 #    console.log('np: ' + @nozzle_pressure())
 #    console.log('xxxxxxxxxxxxxxxxxxx')
-    parseFloat((29.7 * Math.pow(@nozzle_float, 2) * Math.sqrt(@nozzle_pressure())).toFixed(3))
+    parseFloat((29.7 * Math.pow(@nozzle_float, 2) * Math.sqrt(@nozzle_pressure())).toFixed(1))
 
   gallons_per_second: ->
     @gallons_per_minute() / 60.0
@@ -64,7 +64,7 @@ class App.Hose
     # nozzle pressure = pump discharge pressure - total pressure loss
 #    console.log("pdp: " + @valve.pressureOut())
 #    console.log("total loss: " + @total_pressure_loss())
-    np = parseFloat((@valve.pressureOut() - @total_pressure_loss()).toFixed(3))
+    np = parseFloat((@valve.pressureOut() - @total_pressure_loss()).toFixed(1))
     if np > 0 then np else 0
 
   pressure: ->
@@ -73,7 +73,7 @@ class App.Hose
   pressure_for_gpm: (gpm) ->
     # gpm = 29.7 * Math.pow(@diameter, 2) * Math.sqrt(@pressure)
     # @pressure = Math.pow(gpm / (29.7 * Math.pow(@diameter, 2)), 2)
-    parseFloat(Math.pow(gpm / (29.7 * Math.pow(@nozzle_float, 2)), 2).toFixed(3))
+    parseFloat(Math.pow(gpm / (29.7 * Math.pow(@nozzle_float, 2)), 2).toFixed(1))
 
   desiredNozzlePressure: ->
     if @nozzle_str of smooth_bore_nozzle_gpm

@@ -87,11 +87,11 @@
     };
 
     Hose.prototype.total_pressure_loss = function() {
-      return this.friction_loss() + this.appliance_loss() + this.elevation_loss();
+      return (this.friction_loss() + this.appliance_loss() + this.elevation_loss()).toFixed(1);
     };
 
     Hose.prototype.gallons_per_minute = function() {
-      return parseFloat((29.7 * Math.pow(this.nozzle_float, 2) * Math.sqrt(this.nozzle_pressure())).toFixed(3));
+      return parseFloat((29.7 * Math.pow(this.nozzle_float, 2) * Math.sqrt(this.nozzle_pressure())).toFixed(1));
     };
 
     Hose.prototype.gallons_per_second = function() {
@@ -100,7 +100,7 @@
 
     Hose.prototype.nozzle_pressure = function() {
       var np;
-      np = parseFloat((this.valve.pressureOut() - this.total_pressure_loss()).toFixed(3));
+      np = parseFloat((this.valve.pressureOut() - this.total_pressure_loss()).toFixed(1));
       if (np > 0) {
         return np;
       } else {
@@ -113,7 +113,7 @@
     };
 
     Hose.prototype.pressure_for_gpm = function(gpm) {
-      return parseFloat(Math.pow(gpm / (29.7 * Math.pow(this.nozzle_float, 2)), 2).toFixed(3));
+      return parseFloat(Math.pow(gpm / (29.7 * Math.pow(this.nozzle_float, 2)), 2).toFixed(1));
     };
 
     Hose.prototype.desiredNozzlePressure = function() {

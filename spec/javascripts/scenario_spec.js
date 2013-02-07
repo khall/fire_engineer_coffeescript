@@ -19,7 +19,7 @@
         names = s.changes_needed.map(function(changes) {
           return changes[0];
         });
-        return expect(names.indexOf('pump pressure') + names.indexOf('relief valve')).toBeGreaterThan(-2);
+        return expect(names.indexOf('idle speed') + names.indexOf('relief valve')).toBeGreaterThan(-2);
       });
     });
     describe('morePressure', function() {

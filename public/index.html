@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="/javascripts/compiled/hose.js"></script>
@@ -9,9 +9,9 @@
     <script type="text/javascript">
         var scenario = new App.Scenario();
         var pump = scenario.easy();
-        console.log(scenario.answer_str);
+//        console.log(scenario.answer_str);
         var matching_pumps = (pump == pump.discharge[0].pump);
-        console.log("pumps match? " + matching_pumps);
+//        console.log("pumps match? " + matching_pumps);
         var interval = setInterval(function() {
             newPump = new App.Pump($('#idle_percentage').val(), pump.discharge, pump.intake, pump.tank, pump.max_pressure, $('#relief_valve').val());
             if (scenario.checkAnswer(newPump)) {
@@ -63,61 +63,84 @@
             $('#relief_valve').val($(input).val());
             pump.relief_valve = $(input).val();
         }
+
+        var idle_adjust = function(input) {
+            $('#idle_percentage').val($(input).val());
+            pump.idle_percentage = $(input).val();
+        }
     </script>
 </head>
 <body>
-    <p>
+    <div>
         <h2>Problem</h2>
         <p id="problem"></p>
-    </p>
-    <p>
-        <h2>Pump</h2>
-        <p>
-            Idle Speed
-            <input id="idle_percentage"/>
-            <input type="range" id="idle_percentage_range" min="0" max="100" onchange="valve_adjust(this)"/>
-        </p>
-        <p>
-            Intake Pressure
-            <input id="intake_pressure"/>
-        </p>
-        <p>
-            Relief Valve
-            <input id="relief_valve"/>
-            <input type="range" id="relief_valve_range" min="0" max="300" onchange="relief_valve_adjust(this)"/>
-        </p>
-        <p>
-            Tank
-            <input id="tank"/>
-        </p>
-        <p>
-            <input type="button" id="tank_to_pump" value="Tank to Pump" onclick="tank_to_pump()"/>
-            <span id="tank_to_pump_indicator">Closed</span>
-        </p>
-        <p>
-            <input type="button" id="tank_fill" value="Tank Fill" onclick="tank_fill()"/>
-            <span id="tank_fill_indicator">Closed</span>
-        </p>
-        <p>
-            <input type="button" id="drive_pump" value="Drive/Pump" onclick="drive_pump()"/>
-            <span id="drive_pump_indicator">Drive</span>
-        </p>
-    </p>
-    <p>
-        <h2>Valve</h2>
-        <input type="range" id="open_percentage_range" min="0" max="100" onchange="valve_adjust(this)"/>
-        <p>Open %<input id="open_percentage"/></p>
-        <p>Pressure Out<input id="valve_pressure_out"/></p>
-    </p>
-    <p>
-        <h2>Hose</h2>
-        <p>Length<input id="distance"/></p>
-        <p>Diameter<input id="diameter"/></p>
-        <p>Elevation<input id="elevation"/></p>
-        <p>Nozzle Pressure<input id="nozzle_pressure"/></p>
-        <p>GPM<input id="gpm"/></p>
-        <p>Total Pressure Loss<input id="total_pressure_loss"/></p>
-    </p>
+    </div>
+    <div style="width:33%; float:left">
+        <h2>DIRECT ITEMS</h2>
+        <div>
+            <h2>Pump</h2>
+            <p>
+                Idle Speed
+                <input id="idle_percentage"/>
+                <input type="range" id="idle_percentage_range" min="0" max="100" onchange="idle_adjust(this)"/>
+            </p>
+            <p>
+                Relief Valve
+                <input id="relief_valve"/>
+                <input type="range" id="relief_valve_range" min="0" max="300" onchange="relief_valve_adjust(this)"/>
+            </p>
+            <p>
+                <input type="button" id="tank_to_pump" value="Tank to Pump" onclick="tank_to_pump()"/>
+                <span id="tank_to_pump_indicator">Closed</span>
+            </p>
+            <p>
+                <input type="button" id="tank_fill" value="Tank Fill" onclick="tank_fill()"/>
+                <span id="tank_fill_indicator">Closed</span>
+            </p>
+            <p>
+                <input type="button" id="drive_pump" value="Drive/Pump" onclick="drive_pump()"/>
+                <span id="drive_pump_indicator">Drive</span>
+            </p>
+        </div>
+        <div>
+            <h2>Valve</h2>
+            <input type="range" id="open_percentage_range" min="0" max="100" onchange="valve_adjust(this)"/>
+            <p>Open %<input id="open_percentage"/></p>
+        </div>
+    </div>
+    <div style="width:33%; float:left">
+        <h2>INDIRECT ITEMS</H2>
+        <div>
+            <h2>Pump</h2>
+            <p>
+                Intake Pressure
+                <input id="intake_pressure"/>
+            </p>
+            <p>
+                Tank
+                <input id="tank"/>
+            </p>
+        </div>
+        <div>
+            <h2>Hose</h2>
+            <p>Nozzle Pressure<input id="nozzle_pressure"/></p>
+            <p>GPM<input id="gpm"/></p>
+        </div>
+        <div>
+            <h2>Valve</h2>
+            <p>Pressure Out<input id="valve_pressure_out"/></p>
+        </div>
+    </div>
+    <div style="width:33%; float:left">
+        <h2>UNCONTROLLABLE ITEMS</h2>
+        <div>
+            <h2>Hose</h2>
+            <p>Length<input id="distance"/></p>
+            <p>Diameter<input id="diameter"/></p>
+            <p>Elevation<input id="elevation"/></p>
+            <p>Total Pressure Loss<input id="total_pressure_loss"/></p>
+        </div>
+    </div>
     <script type="text/javascript">
 //        $('#raise_idle').bind('click', function(){ pump.idle_percentage += 10; });
 //        $('#lower_idle').bind('click', function(){ pump.idle_percentage -= 10; });
