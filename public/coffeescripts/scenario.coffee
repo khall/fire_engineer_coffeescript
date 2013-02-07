@@ -59,9 +59,20 @@ class App.Scenario
     @pump = p
 
   morePressureOneLine: ->
-    @pump = new App.Pump(@rand(101), [new App.Valve(@rand(101), new App.Hose())], [], 1000, 600, @rand(251))
+    # TODO
+    # Possible solutions:
+    # 1. increase idle speed
+    # 2. open discharge valve
+    # 3. raise relief valve
+    @createWorkingConditions()
+    @pump.relief_valve = 0
+    @pump.idle_percentage = 0
+    @pump.discharge[0].open_percentage = 0
 
   lessPressureAllLines: ->
+    # Possible solutions:
+    # 1. decrease idle speed
+    # 2. close all discharge valves
     # TODO
     p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300)
     @pump = p
@@ -83,9 +94,11 @@ class App.Scenario
 
   createWorkingConditions: (num_hoses = 1) ->
     # 1. randomly create uncontrollable values (hose length, elevation, nozzle type, number of lines, initial tank size)
-    # 2.
+    # 2. create believable directly controllable pump values (idle, relief valve, discharge valve)
     discharge = []
-    discharge.push( new App.Valve(@rand(101), new App.Hose((@rand(10) + 1) * 50, 1.75, @rand(51) * 5 - 125)) ) for num in [0..num_hoses]
+    discharge.push( new App.Valve(0, new App.Hose((@rand(10) + 1) * 50, 1.75, @rand(51) * 5 - 125)) ) for num in [0..num_hoses]
+    @pump = new App.Pump(0, discharge, [], 1000, 600, 0)
+
 
   checkAnswer: (p) ->
     p.toStr() == @answer_str

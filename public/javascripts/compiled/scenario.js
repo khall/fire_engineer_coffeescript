@@ -49,7 +49,10 @@
     };
 
     Scenario.prototype.morePressureOneLine = function() {
-      return this.pump = new App.Pump(this.rand(101), [new App.Valve(this.rand(101), new App.Hose())], [], 1000, 600, this.rand(251));
+      this.createWorkingConditions();
+      this.pump.relief_valve = 0;
+      this.pump.idle_percentage = 0;
+      return this.pump.discharge[0].open_percentage = 0;
     };
 
     Scenario.prototype.lessPressureAllLines = function() {
@@ -69,16 +72,15 @@
     Scenario.prototype.chargeSecondLineWhileKeepingFirstConstant = function() {};
 
     Scenario.prototype.createWorkingConditions = function(num_hoses) {
-      var discharge, num, _i, _results;
+      var discharge, num, _i;
       if (num_hoses == null) {
         num_hoses = 1;
       }
       discharge = [];
-      _results = [];
       for (num = _i = 0; 0 <= num_hoses ? _i <= num_hoses : _i >= num_hoses; num = 0 <= num_hoses ? ++_i : --_i) {
-        _results.push(discharge.push(new App.Valve(this.rand(101), new App.Hose((this.rand(10) + 1) * 50, 1.75, this.rand(51) * 5 - 125))));
+        discharge.push(new App.Valve(0, new App.Hose((this.rand(10) + 1) * 50, 1.75, this.rand(51) * 5 - 125)));
       }
-      return _results;
+      return this.pump = new App.Pump(0, discharge, [], 1000, 600, 0);
     };
 
     Scenario.prototype.checkAnswer = function(p) {

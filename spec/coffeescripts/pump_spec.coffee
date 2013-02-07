@@ -66,6 +66,19 @@ describe 'Pump: ', ->
       jasmine.Clock.tick(1000)
       expect(p.tank).toBeLessThan 1000
 
+  describe 'relief valve open', ->
+    it 'should be true', ->
+      p = new App.Pump(100, [new App.Valve(10)], [], 1000, 600, 59)
+      expect(p.reliefValveOpen()).toEqual true
+
+    it 'should be false', ->
+      p = new App.Pump(100, [new App.Valve(10)], [], 1000, 600, 61)
+      expect(p.reliefValveOpen()).toEqual false
+
+    it 'should be false when at exact pressure', ->
+      p = new App.Pump(100, [new App.Valve(10)], [], 1000, 600, 60)
+      expect(p.reliefValveOpen()).toEqual false
+
 
 #  describe 'adjust pressure: ', ->
 #    p = null

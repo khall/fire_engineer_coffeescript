@@ -59,4 +59,9 @@ class App.Pump
       @reduceTankWater(valve.hose.gallons_per_second()) for valve in @discharge
     , 1000
 
+  reliefValveOpen: ->
+    for valve in @discharge
+      return true if @relief_valve < valve.pressureOut()
+    false
+
   # TODO: drafting / suction

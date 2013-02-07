@@ -66,7 +66,7 @@
         return expect(p.totalIntakePressure()).toEqual(115);
       });
     });
-    return describe('process water loss', function() {
+    describe('process water loss', function() {
       return it('should drain tank after a second', function() {
         var p;
         jasmine.Clock.useMock();
@@ -76,6 +76,23 @@
         p.tankToPump();
         jasmine.Clock.tick(1000);
         return expect(p.tank).toBeLessThan(1000);
+      });
+    });
+    return describe('relief valve open', function() {
+      it('should be true', function() {
+        var p;
+        p = new App.Pump(100, [new App.Valve(10)], [], 1000, 600, 59);
+        return expect(p.reliefValveOpen()).toEqual(true);
+      });
+      it('should be false', function() {
+        var p;
+        p = new App.Pump(100, [new App.Valve(10)], [], 1000, 600, 61);
+        return expect(p.reliefValveOpen()).toEqual(false);
+      });
+      return it('should be false when at exact pressure', function() {
+        var p;
+        p = new App.Pump(100, [new App.Valve(10)], [], 1000, 600, 60);
+        return expect(p.reliefValveOpen()).toEqual(false);
       });
     });
   });
