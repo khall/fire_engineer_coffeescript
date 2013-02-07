@@ -117,20 +117,14 @@
     };
 
     Pump.prototype.reliefValveOpen = function() {
-      var valve, _i, _j, _len, _len1, _ref, _ref1;
+      var valve, _i, _len, _ref;
       _ref = this.discharge;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         valve = _ref[_i];
-        console.log("valve pressure out: " + valve.pressureOut() + " > " + this.relief_valve);
-      }
-      _ref1 = this.discharge;
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        valve = _ref1[_j];
         if (this.relief_valve < valve.pressureOut()) {
           return true;
         }
       }
-      console.log('returning false for vpo: ' + valve.pressureOut());
       return false;
     };
 

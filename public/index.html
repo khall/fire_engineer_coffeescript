@@ -36,7 +36,7 @@
             $('#gpm').val(pump.discharge[0].hose.gallons_per_minute());
             $('#nozzle_pressure').val(pump.discharge[0].hose.nozzle_pressure());
 
-            $('#problem').html(scenario.changes_needed[0][0])
+            $('#problem').html(scenario.change_text)
         }, 1000);
 
         var tank_to_pump = function() {

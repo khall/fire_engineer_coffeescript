@@ -4,6 +4,7 @@ class App.Scenario
     @direct_factors = ['idle_speed', 'relief_valve']
     @answer_str = null
     @changes_needed = []
+    @change_text = ''
     @pump = null
 
   # create a situation where only one or two directly controllable factors need changing in order to be correct
@@ -43,9 +44,11 @@ class App.Scenario
 
     if issues.indexOf('idle_speed') != -1
       @changes_needed.push(['idle speed', p.idle_percentage])
+      @change_text = "Adjust idle speed. "
       p.idle_percentage = parseInt(p.idle_percentage * @rand(100) / 100.0)
     if issues.indexOf('relief_valve') != -1
       @changes_needed.push(['relief valve', p.relief_valve])
+      @change_text += "Adjust relief valve. "
       p.relief_valve = parseInt(p.relief_valve * @rand(100) / 100.0)
 
     @pump = p
@@ -57,6 +60,7 @@ class App.Scenario
     # TODO
     p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300)
     @pump = p
+    @change_text = "More pressure on all lines. "
 
   morePressureOneLine: ->
     # TODO
@@ -68,6 +72,7 @@ class App.Scenario
     @pump.relief_valve = 0
     @pump.idle_percentage = 0
     @pump.discharge[0].open_percentage = 0
+    @change_text = "More pressure on the one line. "
 
   lessPressureAllLines: ->
     # Possible solutions:
@@ -76,9 +81,11 @@ class App.Scenario
     # TODO
     p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300)
     @pump = p
+    @change_text = "Less pressure on all lines. "
 
   lessPressureOneLine: ->
     # TODO
+    @change_text = "Less pressure on the one line. "
 
   addOnMoreHoseOneLine: ->
     # TODO

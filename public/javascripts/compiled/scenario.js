@@ -6,6 +6,7 @@
       this.direct_factors = ['idle_speed', 'relief_valve'];
       this.answer_str = null;
       this.changes_needed = [];
+      this.change_text = '';
       this.pump = null;
     }
 
@@ -33,10 +34,12 @@
       }
       if (issues.indexOf('idle_speed') !== -1) {
         this.changes_needed.push(['idle speed', p.idle_percentage]);
+        this.change_text = "Adjust idle speed. ";
         p.idle_percentage = parseInt(p.idle_percentage * this.rand(100) / 100.0);
       }
       if (issues.indexOf('relief_valve') !== -1) {
         this.changes_needed.push(['relief valve', p.relief_valve]);
+        this.change_text += "Adjust relief valve. ";
         p.relief_valve = parseInt(p.relief_valve * this.rand(100) / 100.0);
       }
       return this.pump = p;
@@ -45,23 +48,28 @@
     Scenario.prototype.morePressureAllLines = function() {
       var p;
       p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300);
-      return this.pump = p;
+      this.pump = p;
+      return this.change_text = "More pressure on all lines. ";
     };
 
     Scenario.prototype.morePressureOneLine = function() {
       this.createWorkingConditions();
       this.pump.relief_valve = 0;
       this.pump.idle_percentage = 0;
-      return this.pump.discharge[0].open_percentage = 0;
+      this.pump.discharge[0].open_percentage = 0;
+      return this.change_text = "More pressure on the one line. ";
     };
 
     Scenario.prototype.lessPressureAllLines = function() {
       var p;
       p = new App.Pump(25, [new App.Valve(100, new App.Hose())], [], 500, 300);
-      return this.pump = p;
+      this.pump = p;
+      return this.change_text = "Less pressure on all lines. ";
     };
 
-    Scenario.prototype.lessPressureOneLine = function() {};
+    Scenario.prototype.lessPressureOneLine = function() {
+      return this.change_text = "Less pressure on the one line. ";
+    };
 
     Scenario.prototype.addOnMoreHoseOneLine = function() {};
 
